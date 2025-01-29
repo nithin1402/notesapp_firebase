@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "953750763068",
+    "project_id": "firenotee",
+    "storage_bucket": "firenotee.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:953750763068:android:09b6f516c367ed4feab539",
+        "android_client_info": {
+          "package_name": "com.example.fire_notee"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBH6hxy41VGpoPBk6gF7R0kwy6ShigwvHk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
