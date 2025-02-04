@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_constants.dart';
 
@@ -56,11 +57,16 @@ class AddNotePage extends StatelessWidget {
                  Navigator.pop(context);
                }, child: Text("Calcel")),
                SizedBox(width: 11,),
-               ElevatedButton(onPressed: () {
+               ElevatedButton(onPressed: () async{
+
+                 SharedPreferences prefs = await SharedPreferences.getInstance();
+                 String uid = prefs.getString("UID") ?? "";
+
                  ff.collection(AppConstants.TAB_NOTE).add({
                    AppConstants.COL_TITLE : titleController.text,
                    AppConstants.COL_DESC : descController.text,
-                   AppConstants.COL_CREATED_AT : DateTime.now().millisecondsSinceEpoch
+                   AppConstants.COL_CREATED_AT : DateTime.now().millisecondsSinceEpoch,
+                   "uid" : uid
                  });
                  Navigator.pop(context);
                }, child: Text("Add"))

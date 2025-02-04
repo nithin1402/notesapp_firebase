@@ -1,6 +1,5 @@
 
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fire_notee/add_note_page.dart';
 import 'package:fire_notee/app_constants.dart';
@@ -10,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'model_class.dart';
+
 class HomePage extends StatefulWidget {
 
   @override
@@ -17,35 +18,29 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  //
-  // var checkLogin;
-  //
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   getvalueFromPrefs();
-  // }
-  //
-  //
-  //
-  // void getvalueFromPrefs() async{
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   checkLogin = prefs.getStringList("authenticate") ?? "";
-  //
-  //   Widget navigateTo = LoginPage();
-  //
-  //   if (checkLogin != "") {
-  //     navigateTo = HomePage();
-  //   }
-  //
-  //   Navigator.pushReplacement(
-  //       context, MaterialPageRoute(builder: (context) => navigateTo));
-  // }
+
+  List<ModelClass>? mData;
+
+  String? uid;
 
   FirebaseFirestore ff= FirebaseFirestore.instance;
 
   DateFormat df = DateFormat.Hms();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUID();
+  }
+
+  void getUID() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uid= prefs.getString("UID") ?? "";
+    setState(() {
+
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +49,7 @@ class _HomePageState extends State<HomePage> {
         title: Text("Home"),
       ),
       body: StreamBuilder<QuerySnapshot<Map<String,dynamic>>>(
-        stream: ff.collection(AppConstants.TAB_NOTE).orderBy("created_at",descending: true).snapshots(),
+        stream: ff.collection(AppConstants.TAB_NOTE).where("UID",isEqualTo: uid).snapshots(),
         builder: (_,snap) {
           if(snap.hasData){
             return ListView.builder(
@@ -66,6 +61,7 @@ class _HomePageState extends State<HomePage> {
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    
                     Text(snap.data!.docs[index].data()["desc"]),
                     Text(df.format(DateTime.fromMillisecondsSinceEpoch(snap.data!.docs[index].data()["created_at"])))
                   ],

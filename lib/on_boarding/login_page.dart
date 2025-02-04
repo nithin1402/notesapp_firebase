@@ -91,11 +91,20 @@ class LoginPage extends StatelessWidget {
                           String pass = passController.text;
         
                           FirebaseAuth auth=FirebaseAuth.instance;
+
                           try {
                              credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
                                 email: email,
-                                password: pass
+                                password: pass,
                             );
+
+                             if(credential.user!=null){
+
+                               SharedPreferences prefs = await SharedPreferences.getInstance();
+                               prefs.setString("UID", credential.user!.uid);
+
+                             }
+
                              Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
 
                           } on FirebaseAuthException catch (e) {
