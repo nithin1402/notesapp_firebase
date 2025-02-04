@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Timer(Duration(seconds: 3),() async{
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      checkLogin = prefs.getStringList("authenticate") ?? "";
+      checkLogin = prefs.getString("UID") ?? "";
 
       Widget navigateTo = LoginPage();
 
