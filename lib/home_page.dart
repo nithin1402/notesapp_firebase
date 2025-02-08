@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fire_notee/add_note_page.dart';
 import 'package:fire_notee/app_constants.dart';
+import 'package:fire_notee/bloc/note_bloc.dart';
 import 'package:fire_notee/model_class.dart';
 import 'package:fire_notee/on_boarding/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -57,7 +59,10 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (_,index){
 
               return ListTile(
-                title: Text(snap.data!.docs[index].data()["title"]),
+                
+                //title: context.watch<NoteBloc>().stat
+                
+                //title: Text(snap.data!.docs[index].data()["title"]),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

@@ -1,5 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fire_notee/bloc/note_bloc.dart';
+import 'package:fire_notee/bloc/note_event.dart';
+import 'package:fire_notee/model_class.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_constants.dart';
@@ -62,12 +66,15 @@ class AddNotePage extends StatelessWidget {
                  SharedPreferences prefs = await SharedPreferences.getInstance();
                  String uid = prefs.getString("UID") ?? "";
 
-                 ff.collection(AppConstants.TAB_NOTE).add({
-                   AppConstants.COL_TITLE : titleController.text,
-                   AppConstants.COL_DESC : descController.text,
-                   AppConstants.COL_CREATED_AT : DateTime.now().millisecondsSinceEpoch,
-                   "uid" : uid
-                 });
+                 context.read<NoteBloc>().add(AddNoteEvent(modelClass: ModelClass(title: titleController.text, desc: descController.text)));
+
+                 // ff.collection(AppConstants.TAB_NOTE).add({
+                 //   AppConstants.COL_TITLE : titleController.text,
+                 //   AppConstants.COL_DESC : descController.text,
+                 //   AppConstants.COL_CREATED_AT : DateTime.now().millisecondsSinceEpoch,
+                 //   "uid" : uid
+                 // });
+
                  Navigator.pop(context);
                }, child: Text("Add"))
              ],
